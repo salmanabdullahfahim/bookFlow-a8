@@ -3,7 +3,7 @@ import sendResponse from "../../shared/sendResponse";
 import { BookServices } from "./book.services";
 import { StatusCodes } from "http-status-codes";
 
-const createBook = catchAsync(async (req, res, next) => {
+const createBook = catchAsync(async (req, res) => {
   const result = await BookServices.createBookIntoDB(req.body);
 
   sendResponse(res, {
