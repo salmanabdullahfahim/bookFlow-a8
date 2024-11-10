@@ -24,8 +24,26 @@ const getSingleBookFromDB = async (bookId: string) => {
   return result;
 };
 
+//  update book
+
+const updateBookIntoDB = async (bookId: string, data: any) => {
+  await prisma.book.findUniqueOrThrow({
+    where: {
+      bookId,
+    },
+  });
+  const result = await prisma.book.update({
+    where: {
+      bookId,
+    },
+    data,
+  });
+  return result;
+};
+
 export const BookServices = {
   createBookIntoDB,
   getAllBooksFromDB,
   getSingleBookFromDB,
+  updateBookIntoDB,
 };
