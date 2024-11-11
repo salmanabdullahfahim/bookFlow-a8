@@ -8,6 +8,13 @@ const createMemberIntoDB = async (data: any) => {
   return result;
 };
 
+// get all members from database
+const getAllMembersFromDB = async () => {
+  const result = await prisma.member.findMany({});
+  return result;
+};
+
 export const MemberServices = {
   createMemberIntoDB,
+  getAllMembersFromDB,
 };
