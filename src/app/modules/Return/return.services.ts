@@ -1,3 +1,4 @@
+import AppError from "../../shared/AppError";
 import prisma from "../../shared/prisma";
 
 const returnBook = async (data: any) => {
@@ -10,7 +11,7 @@ const returnBook = async (data: any) => {
     });
 
     if (borrow.returnDate !== null) {
-      throw new Error("Book is already returned");
+      throw new AppError("Book is already returned", 400);
     }
 
     // update book available copies

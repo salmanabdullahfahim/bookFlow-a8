@@ -1,3 +1,4 @@
+import AppError from "../../shared/AppError";
 import prisma from "../../shared/prisma";
 
 const borrowBook = async (data: any) => {
@@ -10,7 +11,7 @@ const borrowBook = async (data: any) => {
     });
 
     if (book.availableCopies <= 0) {
-      throw new Error("Book is not available for borrowing");
+      throw new AppError("Book is not available for borrowing", 400);
     }
 
     // check if member exists
