@@ -24,8 +24,25 @@ const getSingleMemberFromDB = async (memberId: string) => {
   return result;
 };
 
+// update member into database
+const updateMemberIntoDB = async (memberId: string, data: any) => {
+  await prisma.member.findUniqueOrThrow({
+    where: {
+      memberId,
+    },
+  });
+  const result = await prisma.member.update({
+    where: {
+      memberId,
+    },
+    data,
+  });
+  return result;
+};
+
 export const MemberServices = {
   createMemberIntoDB,
   getAllMembersFromDB,
   getSingleMemberFromDB,
+  updateMemberIntoDB,
 };

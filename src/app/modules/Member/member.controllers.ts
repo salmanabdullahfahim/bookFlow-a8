@@ -40,8 +40,27 @@ const getSingleMember = catchAsync(async (req, res) => {
   });
 });
 
+// update member
+const updateMember = catchAsync(async (req, res) => {
+  const { memberId } = req.params;
+  const result = await MemberServices.updateMemberIntoDB(memberId, req.body);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Member updated successfully",
+    data: {
+      memberId: result.memberId,
+      name: result.name,
+      email: result.email,
+      phone: result.phone,
+    },
+  });
+});
+
 export const MemberControllers = {
   createMember,
   getAllMembers,
   getSingleMember,
+  updateMember,
 };
