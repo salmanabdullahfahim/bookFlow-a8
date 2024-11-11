@@ -3,10 +3,15 @@ import app from "./app";
 import config from "./config";
 
 const port = config.port;
-export async function main() {
-  const server: Server = app.listen(port, () => {
-    console.log("Server is running on port", port);
-  });
+let server: Server;
+async function main() {
+  try {
+    server = app.listen(port, () => {
+      console.log("Server is running on port", port);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 main();
