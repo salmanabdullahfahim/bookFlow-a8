@@ -45,6 +45,41 @@ const borrowBook = async (data: any) => {
   return result;
 };
 
+const getOverdueBorrowsService = async () => {
+  const currentDate = new Date();
+  const overdueDaysLimit = 14;
+
+  const overdueBorrows = await prisma.borrowRecord.findMany({
+    where: {
+      returnDate: null,
+      borrowDate: {
+        lt: new Date(
+          currentDate.getTime() - overdueDaysLimit * 24 * 60 * 60 * 1000
+        ),
+      },
+    },
+    include: {
+      book: { select: { title: true } },
+      member: { select: { name: true } },
+    },
+  });
+
+  // Map to include overdue days and borrower/book information
+  return overdueBorrows.map((borrow) => {
+    const overdueDays = Math.floor(
+      (currentDate.getTime() - borrow.borrowDate.getTime()) /
+        (1000 * 60 * 60 * 24)
+    );
+    return {
+      borrowId: borrow.borrowId,
+      bookTitle: borrow.book.title,
+      borrowerName: borrow.member.name,
+      overdueDays,
+    };
+  });
+};
+
 export const BorrowServices = {
   borrowBook,
+  getOverdueBorrowsService,
 };
